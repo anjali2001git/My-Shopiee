@@ -3,13 +3,17 @@ const {verifyTokenAndAdmin } = require("./verfyToken");
 const router=require("express").Router();
 
 //CREATE
-router.post("/",verifyTokenAndAdmin,async(req,res)=>{
-    const newProduct=new Product(req.body)
+router.post("/", verifyTokenAndAdmin,async(req,res)=>{
+    const newProduct=new Product(req.body);
+    
     try{
+
            const savedProduct=await newProduct.save();
            res.status(200).json(savedProduct);
     }catch(err){
+        console.log("tumse na ho payega");
         res.status(500).json(err);
+
     }
 })
 
@@ -37,8 +41,10 @@ router.delete("/:id",verifyTokenAndAdmin,async(req,res)=>{
 //GET PRODUCT
 router.get("/find/:id",async(req,res)=>{
     try{
+       
          const product=await Product.findById(req.params.id);
          res.status(200).json(product);
+         console.log("i got the product");
     }catch(err){
         res.status(500).json(err);
     }
